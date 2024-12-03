@@ -14,7 +14,7 @@ pub fn spawn_players(mut commands: Commands) {
         .spawn((
             Player { handle: 0 },
             SpriteBundle {
-                transform: Transform::from_translation(Vec3::new(-2., 0., 0.)),
+                transform: Transform::from_translation(Vec3::new(-2., 0., 1.)),
                 sprite: Sprite {
                     color: Color::srgb(0., 0.47, 1.),
                     custom_size: Some(Vec2::new(1., 1.)),
@@ -30,7 +30,7 @@ pub fn spawn_players(mut commands: Commands) {
         .spawn((
             Player { handle: 1 },
             SpriteBundle {
-                transform: Transform::from_translation(Vec3::new(2., 0., 0.)),
+                transform: Transform::from_translation(Vec3::new(2., 0., 1.)),
                 sprite: Sprite {
                     color: Color::srgb(0., 0.4, 0.),
                     custom_size: Some(Vec2::new(1., 1.)),
