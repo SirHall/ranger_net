@@ -1,36 +1,72 @@
+use crate::prog::{
+    component::player::Player,
+    system::{
+        inputs::{INPUT_DOWN, INPUT_LEFT, INPUT_RIGHT, INPUT_UP},
+        matchbox::Config,
+    },
+};
 use bevy::prelude::*;
-use bevy_ggrs::PlayerInputs;
+use bevy_ggrs::{AddRollbackCommandExtension, PlayerInputs};
 
-use crate::prog::{component::player::Player, system::{
-    inputs::{INPUT_DOWN, INPUT_LEFT, INPUT_RIGHT, INPUT_UP},
-    matchbox::Config,
-}};
+pub fn spawn_players(mut commands: Commands) {
+    // Player 1
+    commands
+        .spawn((
+            Player { handle: 0 },
+            SpriteBundle {
+                transform: Transform::from_translation(Vec3::new(-2., 0., 0.)),
+                sprite: Sprite {
+                    color: Color::srgb(0., 0.47, 1.),
+                    custom_size: Some(Vec2::new(1., 1.)),
+                    ..default()
+                },
+                ..default()
+            },
+        ))
+        .add_rollback();
 
-pub fn move_players(inputs: Res<PlayerInputs<Config>>, mut players: Query<&mut Transform, With<Player>>) {
-    let mut direction = Vec2::ZERO;
+    // Player 2
+    commands
+        .spawn((
+            Player { handle: 1 },
+            SpriteBundle {
+                transform: Transform::from_translation(Vec3::new(2., 0., 0.)),
+                sprite: Sprite {
+                    color: Color::srgb(0., 0.4, 0.),
+                    custom_size: Some(Vec2::new(1., 1.)),
+                    ..default()
+                },
+                ..default()
+            },
+        ))
+        .add_rollback();
+}
 
-    let (input, _) = inputs[0];
+pub fn move_players(mut players: Query<(&mut Transform, &Player)>, inputs: Res<PlayerInputs<Config>>, time: Res<Time>) {
+    for (mut transform, player) in &mut players {
+        // println!("INPUT: {:?} {:?}", player.handle, inputs[player.handle].0);
+        let (input, _) = inputs[player.handle];
 
-    if input & INPUT_UP != 0 {
-        direction.y += 1.;
-    }
-    if input & INPUT_DOWN != 0 {
-        direction.y -= 1.;
-    }
-    if input & INPUT_RIGHT != 0 {
-        direction.x += 1.;
-    }
-    if input & INPUT_LEFT != 0 {
-        direction.x -= 1.;
-    }
-    if direction == Vec2::ZERO {
-        return;
-    }
+        let mut direction = Vec2::ZERO;
 
-    let move_speed = 0.13;
-    let move_delta = (direction * move_speed).extend(0.);
+        if input & INPUT_UP != 0 {
+            direction.y += 1.;
+        }
+        if input & INPUT_DOWN != 0 {
+            direction.y -= 1.;
+        }
+        if input & INPUT_RIGHT != 0 {
+            direction.x += 1.;
+        }
+        if input & INPUT_LEFT != 0 {
+            direction.x -= 1.;
+        }
+        if direction == Vec2::ZERO {
+            continue;
+        }
 
-    for mut transform in &mut players {
-        transform.translation += move_delta;
+        let move_speed = 7.;
+        let move_delta = direction * move_speed * time.delta_seconds();
+        transform.translation += move_delta.extend(0.);
     }
 }

@@ -1,6 +1,5 @@
 use bevy::{prelude::*, utils::hashbrown::HashMap};
 use bevy_ggrs::{LocalInputs, LocalPlayers};
-
 use super::matchbox::Config;
 
 pub const INPUT_UP: u8 = 1 << 0;
