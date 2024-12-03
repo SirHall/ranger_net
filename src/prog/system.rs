@@ -1,4 +1,6 @@
 pub mod matchbox;
+pub mod inputs;
+pub mod battle;
 
 use bevy::{prelude::*, render::camera::ScalingMode};
 

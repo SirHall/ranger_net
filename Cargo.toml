@@ -3,7 +3,6 @@ name = "ranger_net"
 version = "0.1.0"
 edition = "2021"
 
-
 [profile.dev.package."*"]
 opt-level = 3
 
@@ -22,8 +21,10 @@ debug = false
 
 
 [dependencies]
-bevy = "0.14.2"
-wasm-server-runner = "0.6.3"
+bevy = { version = "0.14.2", features = [] }
 bevy_ggrs = { version = "0.16", features = ["wasm-bindgen"] }
 bevy_matchbox = { version = "0.10", features = ["ggrs"] }
+# Disables bevy's logging, disable when need to debug
+log = { version = "*", features = ["max_level_debug", "release_max_level_warn"] }
+
 

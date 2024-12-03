@@ -6,7 +6,7 @@ use bevy_ggrs::*;
 // easily in a single byte
 // The second parameter is the address type of peers: Matchbox' WebRtcSocket
 // addresses are called `PeerId`s
-type Config = bevy_ggrs::GgrsConfig<u8, PeerId>;
+pub type Config = bevy_ggrs::GgrsConfig<u8, PeerId>;
 
 pub fn start_matchbox_socket(mut commands: Commands) {
     let room_url = "ws://127.0.0.1:3536/ranger_net?next=2";
