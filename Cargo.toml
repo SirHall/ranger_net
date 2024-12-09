@@ -21,7 +21,7 @@ debug = false
 
 
 [dependencies]
-bevy = { version = "0.14.2", features = [] }
+bevy = { version = "0.14.2", features = ["dynamic_linking"] }
 bevy_ggrs = { version = "0.16", features = ["wasm-bindgen"] }
 bevy_matchbox = { version = "0.10", features = ["ggrs"] }
 # Disables bevy's logging, disable when need to debug
@@ -30,5 +30,6 @@ bevy_asset_loader = { version = "0.21.0", features = ["2d"] }
 bevy_roll_safe = "0.3.0"
 saturating_cast = "0.1.0"
 bytemuck = "1.20.0"
+# bevy_egui = "0.30.0"
 
 

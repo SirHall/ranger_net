@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+// use bevy_egui::EguiContexts;
 use bevy_ggrs::*;
 use bevy_matchbox::prelude::*;
 
@@ -20,7 +21,8 @@ pub fn start_matchbox_socket(mut commands: Commands) {
 pub fn wait_for_players(
     mut socket: ResMut<MatchboxSocket<SingleChannel>>,
     mut commands: Commands,
-    mut next_state: ResMut<NextState<GameState>>, // <-- NEW
+    mut next_state: ResMut<NextState<GameState>>,
+    // mut contexts: EguiContexts,
 ) {
     if socket.get_channel(0).is_err() {
         return; // we've already started

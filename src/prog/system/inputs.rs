@@ -13,7 +13,8 @@ pub const INPUT_PRIMARY: InputWord = 1 << 4;
 pub const INPUT_SECONDARY: InputWord = 1 << 5;
 pub const INPUT_ALT: InputWord = 1 << 6;
 pub const INPUT_RELOAD: InputWord = 1 << 7;
-pub const INPUT_ROTATION: InputWord = 0x00FFFF00;
+pub const INPUT_LOOK_X: InputWord = 0x0000FF00;
+pub const INPUT_LOOK_Y: InputWord = 0x00FF0000;
 // pub const INPUT_RUN
 // pub const INPUT_CROUCH // Sneak
 
