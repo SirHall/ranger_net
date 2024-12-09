@@ -4,7 +4,7 @@ use bevy_ggrs::PlayerInputs;
 use crate::prog::{
     component::player::Player,
     resource::assets::ProgAssets,
-    system::{inputs::INPUT_FIRE, matchbox::Config},
+    system::{inputs::INPUT_PRIMARY, matchbox::Config},
 };
 
 pub fn fire_bullets(
@@ -17,7 +17,7 @@ pub fn fire_bullets(
         let (input, _) = inputs[player.handle];
 
         // Fire bullet
-        if input & INPUT_FIRE != 0 {
+        if input & INPUT_PRIMARY != 0 {
             commands.spawn(SpriteBundle {
                 transform: Transform::from_translation(transform.translation),
                 texture: images.bullet.clone(),

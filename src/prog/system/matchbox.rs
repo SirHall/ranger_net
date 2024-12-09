@@ -8,7 +8,8 @@ use crate::prog::resource::game_state::GameState;
 // easily in a single byte
 // The second parameter is the address type of peers: Matchbox' WebRtcSocket
 // addresses are called `PeerId`s
-pub type Config = bevy_ggrs::GgrsConfig<u8, PeerId>;
+pub type InputWord = u32;
+pub type Config = bevy_ggrs::GgrsConfig<InputWord, PeerId>;
 
 pub fn start_matchbox_socket(mut commands: Commands) {
     let room_url = "ws://127.0.0.1:3536/ranger_net?next=2";
@@ -55,6 +56,6 @@ pub fn wait_for_players(
 
     commands.insert_resource(bevy_ggrs::Session::P2P(ggrs_session));
 
-    next_state.set(GameState::Game); 
+    next_state.set(GameState::Game);
     println!("Setting up game");
 }

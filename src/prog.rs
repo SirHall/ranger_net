@@ -9,8 +9,8 @@ use resource::{assets::ProgAssets, game_state::GameState};
 use system::{
     battle::{
         local::{camera_follow, init_grid_map},
-        player::{move_players, spawn_players},
-        sim::fire_bullets::fire_bullets,
+        player::spawn_players,
+        sim::{fire_bullets::fire_bullets, move_players::move_players},
     },
     init,
     inputs::read_local_inputs,
