@@ -1,6 +1,8 @@
 use bevy::prelude::*;
-use bevy_matchbox::prelude::*;
 use bevy_ggrs::*;
+use bevy_matchbox::prelude::*;
+
+use crate::prog::resource::game_state::GameState;
 
 // The first generic parameter, u8, is the input type: 4-directions + fire fits
 // easily in a single byte
@@ -14,7 +16,11 @@ pub fn start_matchbox_socket(mut commands: Commands) {
     commands.insert_resource(MatchboxSocket::new_ggrs(room_url));
 }
 
-pub fn wait_for_players(mut socket: ResMut<MatchboxSocket<SingleChannel>>, mut commands: Commands) {
+pub fn wait_for_players(
+    mut socket: ResMut<MatchboxSocket<SingleChannel>>,
+    mut commands: Commands,
+    mut next_state: ResMut<NextState<GameState>>, // <-- NEW
+) {
     if socket.get_channel(0).is_err() {
         return; // we've already started
     }
@@ -29,17 +35,14 @@ pub fn wait_for_players(mut socket: ResMut<MatchboxSocket<SingleChannel>>, mut c
     }
 
     info!("All peers have joined, going in-game");
-  
-  
+
     // create a GGRS P2P session
     let mut session_builder = ggrs::SessionBuilder::<Config>::new()
         .with_num_players(num_players)
         .with_input_delay(2);
 
     for (i, player) in players.into_iter().enumerate() {
-        session_builder = session_builder
-            .add_player(player, i)
-            .expect("failed to add player");
+        session_builder = session_builder.add_player(player, i).expect("failed to add player");
     }
 
     // move the channel out of the socket (required because GGRS takes ownership of it)
@@ -52,4 +55,6 @@ pub fn wait_for_players(mut socket: ResMut<MatchboxSocket<SingleChannel>>, mut c
 
     commands.insert_resource(bevy_ggrs::Session::P2P(ggrs_session));
 
+    next_state.set(GameState::Game); 
+    println!("Setting up game");
 }

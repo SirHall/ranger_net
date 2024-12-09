@@ -26,5 +26,7 @@ bevy_ggrs = { version = "0.16", features = ["wasm-bindgen"] }
 bevy_matchbox = { version = "0.10", features = ["ggrs"] }
 # Disables bevy's logging, disable when need to debug
 log = { version = "*", features = ["max_level_debug", "release_max_level_warn"] }
+bevy_asset_loader = { version = "0.21.0", features = ["2d"] }
+bevy_roll_safe = "0.3.0"
 
 
