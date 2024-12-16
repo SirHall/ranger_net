@@ -1,12 +1,7 @@
-use crate::prog::{
-    component::player::Player,
-    system::{
-        inputs::{INPUT_DOWN, INPUT_LEFT, INPUT_RIGHT, INPUT_UP},
-        matchbox::Config,
-    },
-};
+use crate::prog::{component::player::Player, system::matchbox::Config};
+use avian2d::prelude::*;
 use bevy::prelude::*;
-use bevy_ggrs::{AddRollbackCommandExtension, PlayerInputs, Session};
+use bevy_ggrs::{AddRollbackCommandExtension, Session};
 
 pub fn spawn_players(mut commands: Commands, session: Res<Session<Config>>) {
     let num_players = match &*session {
@@ -28,6 +23,8 @@ pub fn spawn_players(mut commands: Commands, session: Res<Session<Config>>) {
                     },
                     ..default()
                 },
+                RigidBody::Dynamic,
+                Collider::circle(1.0),
             ))
             .add_rollback();
     }

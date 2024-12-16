@@ -42,6 +42,7 @@ pub fn wait_for_players(
     // create a GGRS P2P session
     let mut session_builder = ggrs::SessionBuilder::<Config>::new()
         .with_num_players(num_players)
+        // .with_sparse_saving_mode(true) // Experiment with this
         .with_input_delay(2);
 
     for (i, player) in players.into_iter().enumerate() {

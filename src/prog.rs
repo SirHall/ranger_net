@@ -2,10 +2,16 @@ pub mod component;
 pub mod resource;
 pub mod system;
 
+// use bevy_egui::EguiPlugin;
+use avian2d::{
+    math::Vector,
+    position::{PreSolveAccumulatedTranslation, PreSolveRotation, PreviousRotation},
+    prelude::*,
+};
 use bevy::prelude::*;
 use bevy_asset_loader::loading_state::{config::ConfigureLoadingState, LoadingState, LoadingStateAppExt};
-// use bevy_egui::EguiPlugin;
 use bevy_ggrs::prelude::*;
+use component::bullet::Bullet;
 use resource::{assets::ProgAssets, game_state::GameState};
 use system::{
     battle::{
@@ -25,9 +31,13 @@ impl Plugin for Prog {
     fn build(&self, app: &mut App) {
         app.add_plugins((
             GgrsPlugin::<Config>::default(),
+            PhysicsPlugins::new(GgrsSchedule),
+            // PhysicsPlugins::default()
             // EguiPlugin
         ))
         .init_state::<GameState>()
+        // .insert_resource(Gravity(Vector::ZERO))
+        .insert_resource(Gravity(Vector::NEG_Y * 9.81 * 0.1))
         .add_loading_state(
             LoadingState::new(GameState::Loading)
                 .load_collection::<ProgAssets>()
@@ -43,7 +53,19 @@ impl Plugin for Prog {
             ),
         )
         .add_systems(ReadInputs, (read_local_inputs,))
-        .add_systems(GgrsSchedule, (move_players, fire_bullets.after(move_players)))
-        .rollback_component_with_clone::<Transform>();
+        // .add_systems(GgrsSchedule, (move_players, fire_bullets.after(move_players)))
+        .rollback_component_with_clone::<Transform>()
+        .rollback_component_with_copy::<Bullet>()
+        .rollback_component_with_clone::<Sprite>()
+        .rollback_component_with_clone::<GlobalTransform>()
+        .rollback_component_with_clone::<Handle<Image>>()
+        .rollback_component_with_clone::<Visibility>()
+        .rollback_component_with_clone::<InheritedVisibility>()
+        .rollback_component_with_clone::<ViewVisibility>()
+        .rollback_component_with_copy::<Position>()
+        .rollback_component_with_copy::<Rotation>()
+        .rollback_component_with_copy::<PreSolveAccumulatedTranslation>()
+        .rollback_component_with_copy::<PreSolveRotation>()
+        .rollback_component_with_copy::<PreviousRotation>();
     }
 }

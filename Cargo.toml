@@ -19,17 +19,20 @@ debug = false
 # panic = "abort" # See if any libraries rely on stack unwinding
 # TODO: Look at enabling the flag that allows using newer CPU features - though breaking some backward compatibility
 
-
 [dependencies]
 bevy = { version = "0.14.2", features = ["dynamic_linking"] }
-bevy_ggrs = { version = "0.16", features = ["wasm-bindgen"] }
-bevy_matchbox = { version = "0.10", features = ["ggrs"] }
+# bevy_ggrs = { version = "0.16", features = ["wasm-bindgen"] }
+bevy_ggrs = { version = "0.16.0" }
+bevy_matchbox = { version = "0.10.0", features = ["ggrs", "signaling"] }
 # Disables bevy's logging, disable when need to debug
 log = { version = "*", features = ["max_level_debug", "release_max_level_warn"] }
 bevy_asset_loader = { version = "0.21.0", features = ["2d"] }
 bevy_roll_safe = "0.3.0"
 saturating_cast = "0.1.0"
 bytemuck = "1.20.0"
+# avian2d = { version = "0.1.2", default-features = false, features = ["2d", "f32", "default-collider", "parry-f32", "bevy_scene", "enhanced-determinism"]}
+# avian2d = { path = "../avian/crates/avian2d", default-features = false, features = ["2d", "f32", "default-collider", "parry-f32", "bevy_scene", "enhanced-determinism"] }
+avian2d = { path = "../avian/crates/avian2d", default-features = false, features = ["2d", "f32", "default-collider", "parry-f32", "bevy_scene"] }
 # bevy_egui = "0.30.0"
 
 
