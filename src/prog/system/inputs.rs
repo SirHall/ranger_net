@@ -18,7 +18,7 @@ pub const INPUT_LOOK_Y: InputWord = 0x00FF0000;
 // pub const INPUT_RUN
 // pub const INPUT_CROUCH // Sneak
 
-pub const CAMERA_CRUSH_FACTOR: f32 = 0.5;
+pub const CAMERA_CRUSH_FACTOR: f32 = 1.0;
 
 pub fn read_local_inputs(
     mut commands: Commands,
