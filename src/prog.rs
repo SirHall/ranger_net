@@ -7,11 +7,14 @@ use avian2d::{
     math::Vector,
     position::{PreSolveAccumulatedTranslation, PreSolveRotation, PreviousRotation},
     prelude::*,
+    sync::SyncConfig,
 };
 use bevy::prelude::*;
 use bevy_asset_loader::loading_state::{config::ConfigureLoadingState, LoadingState, LoadingStateAppExt};
 use bevy_ggrs::prelude::*;
+use broad_phase::AabbIntersections;
 use component::bullet::Bullet;
+use dynamics::solver::{ContactSoftnessCoefficients, SolverConfig};
 use resource::{assets::ProgAssets, game_state::GameState};
 use system::{
     battle::{
@@ -31,9 +34,7 @@ impl Plugin for Prog {
     fn build(&self, app: &mut App) {
         app.add_plugins((
             GgrsPlugin::<Config>::default(),
-            PhysicsPlugins::new(GgrsSchedule),
-            // PhysicsPlugins::default()
-            // EguiPlugin
+            //  PhysicsPlugins::new(GgrsSchedule)
         ))
         .init_state::<GameState>()
         // .insert_resource(Gravity(Vector::ZERO))
@@ -53,7 +54,7 @@ impl Plugin for Prog {
             ),
         )
         .add_systems(ReadInputs, (read_local_inputs,))
-        // .add_systems(GgrsSchedule, (move_players, fire_bullets.after(move_players)))
+        .add_systems(GgrsSchedule, (move_players, fire_bullets.after(move_players)))
         .rollback_component_with_clone::<Transform>()
         .rollback_component_with_copy::<Bullet>()
         .rollback_component_with_clone::<Sprite>()
@@ -66,6 +67,23 @@ impl Plugin for Prog {
         .rollback_component_with_copy::<Rotation>()
         .rollback_component_with_copy::<PreSolveAccumulatedTranslation>()
         .rollback_component_with_copy::<PreSolveRotation>()
-        .rollback_component_with_copy::<PreviousRotation>();
+        .rollback_component_with_copy::<PreviousRotation>()
+        .rollback_resource_with_clone::<PrepareConfig>()
+        .rollback_resource_with_reflect::<BroadCollisionPairs>()
+        .rollback_component_with_clone::<AabbIntersections>()
+        // .rollback_component_with_clone::<AabbIntervals>()
+        .rollback_resource_with_clone::<Collisions>()
+        .rollback_resource_with_clone::<NarrowPhaseConfig>()
+        .rollback_resource_with_reflect::<Gravity>()
+        .rollback_resource_with_copy::<SleepingThreshold>()
+        .rollback_resource_with_copy::<DeactivationTime>()
+        // .rollback_resource_with_reflect::<LastPhysicsTick>()
+        .rollback_resource_with_clone::<PhysicsLengthUnit>()
+        .rollback_resource_with_clone::<SolverConfig>()
+        .rollback_resource_with_copy::<ContactSoftnessCoefficients>()
+        .rollback_resource_with_copy::<SubstepCount>()
+        .rollback_resource_with_clone::<SpatialQueryPipeline>()
+        .rollback_resource_with_clone::<SyncConfig>();
+        // ContactConstraints
     }
 }
